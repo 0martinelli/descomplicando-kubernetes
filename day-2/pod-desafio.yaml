@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-desafio
+  labels:
+    run: pod-desafio
+spec:
+  volumes:
+  - name: primeiro-volume
+    emptyDir:
+      sizeLimit: 256Mi
+  containers:
+  - name: nginx
+    image: nginx
+    ports: 
+    - containerPort: 80
+    resources:
+      limits:
+        memory: "256Mi"
+        cpu: "1"
+  - name: ubuntu
+    image: ubuntu
+    args:
+    - sleep
+    - "1800"
+    volumeMounts:
+    - name: primeiro-volume
+      mountPath: /home-1
+    resources:
+      requests:
+        memory: "128Mi"
+        cpu: "0.5"
