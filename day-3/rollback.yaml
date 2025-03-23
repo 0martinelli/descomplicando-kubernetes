@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-deployment
+    fruta: banan1111a
+  name: nginx-deployment
+  namespace: jeferson
+spec:
+  replicas: 14
+  selector: 
+    matchLabels:
+      app: nginx-deployment
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1 # pode ter até 1 pod a mais do que o setado (as vzs é necessário)
+      maxUnavailable: 2 # vai atualizar de 2 em 2
+  template:
+    metadata: 
+      labels:
+        app: nginx-deployment
+    spec:
+      containers:
+      - image: nginx:1.13.0
+        name: nginx
+        resources:
+          limits: 
+            cpu: 0.5
+            memory: 256Mi
+          requests: 
+            cpu: 0.3
+            memory: 64Mi 
