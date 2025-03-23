@@ -1,0 +1,181 @@
+K8 Curso - LinuxTips
+
+container - isolamento de recursos
+cgroup - isolamento 
+namespace - isolamento
+
+container engine - responsável por criar o container (gerenciar) ex: Podman, Docker
+container runtime - serve para que o container se comunique com o kernel
+
+
+Kubernetes
+
+ - Orquestrador de containers
+
+ - Controlers:
+
+    Deployment: responsável por criar um ReplicaSet, também é responsável por pedir os recursos necessários pros pods.
+    
+    Replicas set: responsável por manter os pods de réplicas.    
+
+- Namespace:
+    
+    Kube-system: onde estao os pods de gerenciamento de kubernetes
+
+ - Arquitetura
+
+  Node > POD > Container
+
+  - Um POD é um container.
+  - Um POD pode ter um ou n containers
+
+    - NODE (computadores)
+      
+      Tipos: 
+
+        Control Plane -  Comanda o cluster
+          Componentes:
+
+            - ETCD: Guarda o estado do cluster (espécie de banco de dados)
+            - Kube API Server: Unico que conversa com o ETCD e distribuiu o status pro resto do cluster.
+            - Kube Scheduler: Responsável por gerenciar os containers onde roda, por exemplo. 
+            - Kube Controller manager: gerenciador dos controllers no cluster.
+
+        Workers - roda os workloads
+          Componentes:
+
+          - Kubelet: agent do kubernetes dentro do nó
+          - KubeProxy: responsável por fazer a comunicação dos pods com o todo o resto do mundo.
+
+Portas:
+
+  API Server: 6443
+  ETCD: 2379 - 2380
+  Kubelet: 10250
+  Kube-scheduler 10251
+  Kube-controler: 10252
+  NodePort: 30000 - 32767 
+  WaveNet: 6783
+
+- DRY RUN:
+
+  Comando para utilizar Dry-RUn e pegar a config de um pod:
+
+  kind % kubectl run --image nginx --port 80 nginx --dry-run=client -o yaml
+  
+  Pedidos:
+
+  - Criar um cluster kind
+    - um nó control plane
+    - tres workers.
+
+
+POD:
+
+  Menor unidade dentro do Kubernetes
+
+  comando para verificar o pod: kubectl get pods -o yaml
+
+  comando util para verificar tbm: kubectl describe pod <nome-do-pod>
+
+  lista mais detalhes do pod:  k get pods -o wide
+
+  
+  Persistencia de informaçao
+
+   - empty dir é uma forma de montar um volume que resiste ao restart do pod, mas somente ao restart, uma vez que o pod for terminado, o volume se desfaz.
+
+DEPLOYMENT:
+
+    comando dry run de deployment:
+
+    k create deployment --image nginx --replicas 3 nginx-deployment --dry-run=client -o yaml > dep1.yaml
+   
+   tipos de atualização:
+
+   rolling update: faz em rolling, usando as opções maxsurge que indica quantos containers a mais podem rodar, e a opçao max unavailable, que indica quantos containers por vez serão atualizados.
+
+   recreate: simplesmente recria todos os containers: indicado quando uma atualização nao pode rodar duas versoes no mesmo ambiente.
+
+   rollback:
+
+   kubectl rollout undo deployment -n jeferson nginx-deployment
+
+   para ver o que mudou entre os rollouts podemos usar o comando:
+
+   k rollout history deployment -n jeferson nginx-deployment --revision 3
+
+   rollout pode ser também pausada e resume.
+
+   rollout para uma versão da sua escolha:
+
+   k rollout undo deployment nginx-deployment --to-revision=1
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
