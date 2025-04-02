@@ -111,6 +111,33 @@ DEPLOYMENT:
 
    k rollout undo deployment nginx-deployment --to-revision=1
    
+DEAMONSET REPLICASET PROBE
+  
+  REPLICASET
+
+    Principal função: garantir que os pods estão com os números necessários.
+
+  
+  DEAMONSET
+
+    O DaemonSet é um objeto que garante que todos os nós do cluster executem uma réplica de um Pod, ou seja, ele garante que todos os nós do cluster executem uma cópia de um Pod.
+
+  quando falamos de Replicaset e Daemonset, nao podemos usar o comando create
+
+
+  PROBE - Health check dos containers
+
+  Liveness
+
+    check if the container is healthy
+
+    
+
+  Readiness
+
+  Startup
+
+
 
 
 
